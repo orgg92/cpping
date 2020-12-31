@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1609432162 source:/home/devel/Documents/ping-sweep/cpping/main.cpp
+	<iostream>
+	<iomanip>
+	<unistd.h>
+	<net/if.h>
+	<stdio.h>
+	<tins/tins.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<sys/ioctl.h>
+	<netinet/in.h>
+	<vector>
+	<string>
+
