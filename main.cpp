@@ -203,24 +203,8 @@ int main(int argc, char* argv[])
     {
 
     // create command string
-    // turn this into a function (EASY)
 
-        std::stringstream ss;
-        ss << "ping -c 1 -t 32 -W 1 ";
-        ss << octets[0];
-        ss << ".";
-        ss << octets[1];
-        ss << ".";
-        ss << octets[2];
-        ss << ".";
-        ss << octets[3];
-
-        std::string cmd = ss.str();
-
-        // Popen and return stdout (ping)
-        std::string result = callSys(cmd);
-
-        // build host IP
+         // build host IP
         std::stringstream hs;
         hs << octets[0];
         hs << ".";
@@ -231,6 +215,17 @@ int main(int argc, char* argv[])
         hs << octets[3];
 
         std::string host = hs.str();
+
+    // turn this into a function (EASY)
+
+        std::stringstream ss;
+        ss << "ping -c 1 -t 32 -W 1 ";
+        ss << host;
+
+        std::string cmd = ss.str();
+
+        // Popen and return stdout (ping)
+        std::string result = callSys(cmd);
 
         // if packet is 100% loss...
         // else add to "Hosts" vector, we can then check the systems arp cache for the MAC
@@ -271,14 +266,6 @@ int main(int argc, char* argv[])
     {
         std::cout << hosts[i].mac << std::flush;
     }
-
-
-
-
-
-
-
-
 
 
     return 0;
