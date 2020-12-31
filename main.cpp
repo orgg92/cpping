@@ -193,21 +193,17 @@ int main(int argc, char* argv[])
    std::cout << "" << std::endl;
    std::vector<int> octets = ipBreak(myIP);
 
-   // debug - print out all octets
-/*
-   for (int i = 0; i < octets.size(); i++) {
-       std::cout << octets[i] << std::endl;
 
-   }
-*/
    // looping through a /24
 
     octets[3] = 1;
+// (later) check subnet mask, convert each octet to binary
 
-    for (int i =0; i < 10; i++)
+    for (int i =0; i < 254; i++)
     {
 
     // create command string
+    // turn this into a function (EASY)
 
         std::stringstream ss;
         ss << "ping -c 1 -t 32 -W 1 ";
@@ -222,11 +218,9 @@ int main(int argc, char* argv[])
         std::string cmd = ss.str();
 
         // Popen and return stdout (ping)
-
         std::string result = callSys(cmd);
 
         // build host IP
-
         std::stringstream hs;
         hs << octets[0];
         hs << ".";
@@ -251,7 +245,6 @@ int main(int argc, char* argv[])
                 Host newHost;
                 newHost.ip = host;
                 newHost.mac = mac;
-
                 hosts.push_back(newHost);
             }
         }
@@ -260,22 +253,31 @@ int main(int argc, char* argv[])
     }
 
     std::cout << "" << std::endl;
-    std::cout << "Host info..." << std::endl;
+
+    std::stringstream info;
+    info << "Found ";
+    info << hosts.size();
+    info << " host(s) on the network";
+
+    std::string _info = info.str();
+
+
+    std::cout << _info << std::endl;
     std::cout << lineBreak << std::endl;
+
+    // report on IP & MAC
 
     for (int i = 0; i < hosts.size(); i++)
     {
-//        std::cout << hosts[i].ip << std::endl;
         std::cout << hosts[i].mac << std::flush;
     }
 
-// (later) check subnet mask, convert each octet to binary
 
-// run through a ping sequence
 
-    //
 
-// report on IP & MAC
+
+
+
 
 
 
