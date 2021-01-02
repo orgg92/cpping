@@ -232,6 +232,21 @@ int main(int argc, char* argv[])
 
         if (result.find("100% packet loss") != std::string::npos) {
 //            std::cout << host << " [Host timed out]" << std::endl;
+                // try arping for devices filtering ICMP
+
+                std::string arp = callSys("arping -c 1 -I " + selection + " " + host);
+
+                if (arp.find("Unicast reply from") != std::string::npos)
+                {
+                    std::cout << host << " [Host is alive - filtering ICMP]" << std::endl;
+                    std::string mac = callSys("arp " + host + "| grep -w " + selection);
+
+                    Host newHost;
+                    newHost.ip = host;
+                    newHost.mac = mac;
+                    hosts.push_back(newHost);
+                }
+
         } else {
             std::cout << host << " [Host is alive]" << std::endl;
             if (host != myIP) {
@@ -255,7 +270,6 @@ int main(int argc, char* argv[])
     info << " host(s) on the network";
 
     std::string _info = info.str();
-
 
     std::cout << _info << std::endl;
     std::cout << lineBreak << std::endl;
