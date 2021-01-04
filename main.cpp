@@ -17,6 +17,10 @@
 
 using namespace Tins;
 
+#define RESET   "\033[0m"
+#define YELLOW  "\033[33m"
+
+
 struct interface {
   std::string name;
   std::string address;
@@ -57,7 +61,8 @@ void progressBar(int inc) {
     progss << "%";
     std::string prog=progss.str();
     if (inc < 254) {
-        std::cout << "[" << pbar << "] " << prog << "\r" << std::flush;
+
+        std::cout << YELLOW << "[" << pbar << "] " << prog << "\r" << RESET << std::flush;
     } else {
     // Empty string needs to clear progress bar completely
         std::cout << "                      " << "\r" << std::flush;
