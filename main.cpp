@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cmath>
+#include <math.h>
 #include <sstream>
 #include <iomanip>
 #include <unistd.h>
@@ -8,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+#include <arpa/inet.h>
 #include <netinet/in.h>
 #include <vector>
 #include <string>
@@ -38,6 +41,29 @@ void printInts(std::vector<interface> interfaces)
     }
 
     std::cout << "" << std::endl;
+}
+
+void progressBar(int inc) {
+
+    float progress = ((float)inc/(float)254)*100;
+    int pg = std::round((int)progress);
+
+    std::string pbar((pg/4)+1, '*');
+
+    std::stringstream progss;
+//    progss << inc;
+//    progss << "/254";
+    progss << std::round(progress);
+    progss << "%";
+    std::string prog=progss.str();
+    if (inc < 254) {
+        std::cout << "[" << pbar << "] " << prog << "\r" << std::flush;
+    } else {
+    // Empty string needs to clear progress bar completely
+        std::cout << "                      " << "\r" << std::flush;
+    }
+
+
 }
 
 std::string selectInt(std::vector<interface> interfaces)
@@ -193,8 +219,7 @@ int main(int argc, char* argv[])
    std::cout << "" << std::endl;
    std::vector<int> octets = ipBreak(myIP);
 
-
-   // looping through a /24
+   // looping through a /24 - start at .1 because .0 is broadcast
 
     octets[3] = 1;
 // (later) check subnet mask, convert each octet to binary
@@ -238,7 +263,7 @@ int main(int argc, char* argv[])
 
                 if (arp.find("Unicast reply from") != std::string::npos)
                 {
-                    std::cout << host << " [Host is alive - filtering ICMP]" << std::endl;
+                    std::cout << std::left << std::setw(20) << host << " [Host is alive - filtering ICMP]" << std::endl;
                     std::string mac = callSys("arp " + host + "| grep -w " + selection);
 
                     Host newHost;
@@ -248,7 +273,7 @@ int main(int argc, char* argv[])
                 }
 
         } else {
-            std::cout << host << " [Host is alive]" << std::endl;
+            std::cout << std::left << std::setw(20) << host << " [Host is alive]" << std::endl;
             if (host != myIP) {
                 std::string mac = callSys("arp " + host + "| grep -w " + selection);
 
@@ -259,6 +284,8 @@ int main(int argc, char* argv[])
             }
         }
 
+
+        progressBar(octets[3]);
         octets[3] ++;
     }
 
@@ -281,6 +308,7 @@ int main(int argc, char* argv[])
         std::cout << hosts[i].mac << std::flush;
     }
 
+    std::cout << "" << std::endl;
 
     return 0;
 }

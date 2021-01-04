@@ -1,6 +1,9 @@
 # depslib dependency file v1.0
-1609432162 source:/home/devel/Documents/ping-sweep/cpping/main.cpp
+1609797831 source:/home/devel/Documents/ping-sweep/cpping/main.cpp
 	<iostream>
+	<cmath>
+	<math.h>
+	<sstream>
 	<iomanip>
 	<unistd.h>
 	<net/if.h>
