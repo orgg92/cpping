@@ -201,7 +201,7 @@ std::string callSys(std::string cmd)
 int main(int argc, char* argv[])
 {
 
-    std::string lineBreak = "********************************************************************************";
+    std::string lineBreak = "**************************************************************************************";
 
 // create vector to store hosts in
     std::vector<Host> hosts;
