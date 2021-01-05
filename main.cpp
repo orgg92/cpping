@@ -65,7 +65,7 @@ void progressBar(int inc) {
         std::cout << YELLOW << "[" << pbar << "] " << prog << "\r" << RESET << std::flush;
     } else {
     // Empty string needs to clear progress bar completely
-        std::cout << "                      " << "\r" << std::flush;
+        std::cout << "                                                                    " << "\r" << std::flush;
     }
 
 

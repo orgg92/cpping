@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1609797831 source:/home/devel/Documents/ping-sweep/cpping/main.cpp
+1609802971 source:/home/devel/Documents/ping-sweep/cpping/main.cpp
 	<iostream>
 	<cmath>
 	<math.h>
@@ -12,6 +12,7 @@
 	<sys/types.h>
 	<sys/socket.h>
 	<sys/ioctl.h>
+	<arpa/inet.h>
 	<netinet/in.h>
 	<vector>
 	<string>
