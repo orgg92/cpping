@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <net/if.h>
 #include <stdio.h>
-#include <tins/tins.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -14,6 +13,9 @@
 #include <netinet/in.h>
 #include <vector>
 #include <string>
+#include <unistd.h>
+#include <tins/tins.h>
+
 
 using namespace Tins;
 
@@ -62,12 +64,13 @@ void progressBar(int inc) {
     std::string prog=progss.str();
     if (inc < 254) {
 
-        std::cout << YELLOW << "[" << pbar << "] " << prog << "\r" << RESET << std::flush;
+        std::cout << YELLOW << prog << " [" << pbar << "] " << "\r" << RESET << std::flush;
     } else {
     // Empty string needs to clear progress bar completely
-        std::cout << "                                                                    " << "\r" << std::flush;
+        usleep(1000);
+        pg = 0;
+        std::cout << "          " << "\r" << std::flush;
     }
-
 
 }
 
@@ -95,7 +98,7 @@ std::string selectInt(std::vector<interface> interfaces)
         }
 
         else  {
-            std::cout << "Invalid selection: " << std::endl;
+            std::cout << "Invalid selection " << std::endl;
             selection = "";
         }
     }
@@ -264,7 +267,7 @@ int main(int argc, char* argv[])
 //            std::cout << host << " [Host timed out]" << std::endl;
                 // try arping for devices filtering ICMP
 
-                std::string arp = callSys("arping -c 1 -I " + selection + " " + host);
+                std::string arp = callSys("arping -c 1 -w 0.2 -f -I " + selection + " " + host);
 
                 if (arp.find("Unicast reply from") != std::string::npos)
                 {
